@@ -27,13 +27,15 @@ let dataType = function() {
   let testBoolean = true;
   console.log('true is of the datatype: ' +typeof(testBoolean));
   let testNull = null;
-  console.log('null is of the datatype: ' +typeof(testNull));
+    if (testNull === null){
+    console.log('testNull is of the datatype: ' +testNull);
+    }
   let testUnd;
   console.log('no assigned value produces the datatype: ' +typeof(testUnd));
   let testNum = 5;
   console.log('5 is of the datatype: ' +typeof(testNum));
-  let testNaN = Number.NaN;
-  console.log('Number.Nan produces the datatype: ' +typeof(testNaN));
+  let testNaN = parseInt("LOL");
+  console.log('parseInt("LOL") produces the datatype: ' +(testNaN));
   let testStr = 'word';
   console.log('"word" is of the datatype: ' +typeof(testStr));
 }
