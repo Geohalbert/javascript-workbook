@@ -7,34 +7,14 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 let board = [
-  [' ', 'X', ' '],
-  ['O', ' ', ' '],
-  [' ', 'X', ' ']
+  [' ', ' ', ' '],
+  [' ', ' ', ' '],
+  [' ', ' ', ' ']
 ];
 
-
-
-
-  // if (playerTurn === 'X'){
-  //   playerTurn === 'O';
-  //   return playerTurn;
-  // }else if (playerTurn === 'O') {
-  //   playerTurn === 'X';
-  //   return playerTurn;
-  // }
-  // turn === turn+1;
-  //   if (turn%2 === 0) {
-  //     playerTurn === 'X';
-  //     return playerTurn;
-  //   }else if (turn%2 === 1) {
-  //     playerTurn === '0';
-  //     return playerTurn;
-  //   }
-
-
+let playerTurn = 'X';
 
 function printBoard() {
-  let playerTurn, sum, total;
   console.log('   0  1  2');
   console.log('0 ' + board[0].join(' | '));
   console.log('  ---------');
@@ -42,7 +22,6 @@ function printBoard() {
   console.log('  ---------');
   console.log('2 ' + board[2].join(' | '));
 }
-// let playerTurn = 'X';
 
 
 function horizontalWin() {
@@ -84,37 +63,35 @@ function checkForWin() {
   }
 }
 function turns(){
-  let playerTurn = 'X';
-  let sum = [];
-  let total = sum.length
+  let sum = 0;
   for (var r=0; r<3; r++) {
     for (var c=0; c<3; c++){
-      // console.log('(board['+r+']['+c+']): ' +(board[r][c]));
       if ((board[r][c]) === 'X' || (board[r][c]) === 'O') {
-        sum.push(1);
+        sum=sum+1;
       }
     }
   }
-  if (total%2 === 0) {
+  if (sum%2 === 0) {
     playerTurn = 'X';
-  }else if (total%2 === 1) {
+  }else if (sum%2 === 1) {
     playerTurn = 'O';
-  }console.log('playerTurn at end of turns(): '+playerTurn);
+  }
 }
 
 function ticTacToe(row,column) {
-  row === parseInt(row);
-  console.log(row);
-  column === parseInt(column);
-  console.log(column);
-  console.log('board[row][column]: '+board[row][column]);
   if (board[row][column] !== 'X' && board[row][column] !== 'O') {
-    board[row][column] == playerTurn;
+    turns();
+    if (playerTurn === 'X') {
+      board[row].splice(column, 1,'X');
+      // checkForWin();
+    }else if (playerTurn === 'O') {
+      board[row].splice(column, 1,'O');
+      // checkForWin();
+    }
   }
 }
 
 function getPrompt() {
-  // let playerTurn;
   printBoard();
   turns();
   console.log("It's Player " + playerTurn + "'s turn.");
