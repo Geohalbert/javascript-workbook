@@ -9,9 +9,27 @@ const rl = readline.createInterface({
 
 
 function pigLatin(word) {
-
-  // Your code here
-
+  word = word.toLowerCase().trim();
+  let vowels = ['a','i','o','e','u'];
+  let indices = [];
+  let wordLength = word.length;
+  for (var i=0; i<vowels.length; ++i) {
+    let vowel= vowels[i];
+    if (word.indexOf(vowel) !==-1) {
+      indices.push(word.indexOf(vowel));
+    }
+  }
+  indices.sort();
+  let pos = indices[0];
+  if (pos === 0) {
+    let latin = word.concat('yay')
+    return latin;
+  } else {
+    let bString = word.substring(pos,wordLength);
+    let aString = word.substring(0,pos);
+    let latin = bString.concat(aString+ 'ay');
+    return latin;
+  }
 }
 
 
