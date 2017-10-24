@@ -72,6 +72,7 @@ function towersOfHanoi(startStack, endStack) {
       console.log("You win! Game over.")
       process.exit();
     }
+// if the move is illegal, no pieces are moved and the player is asked to choose again
   } else {
     console.log("Invalid move!")
   }
