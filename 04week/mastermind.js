@@ -1,4 +1,5 @@
 'use strict';
+var colors = require('colors');
 
 const assert = require('assert');
 const readline = require('readline');
@@ -8,7 +9,7 @@ const rl = readline.createInterface({
 });
 
 let board = [];
-let solution = '';
+let solution = 'abcd';
 let letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 
 function printBoard() {
@@ -28,12 +29,33 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-function generateHint() {
-  // your code here
+function generateHint(solution, guess) {
+  var solutionArray = solution.split('');
+  var guessArray = guess.split('');
+  var correctLetterLocations = 0;
+  for (var i=0; i<4; i++){
+    let sol = solutionArray[i];
+    let gue= guessArray[i];
+    if (sol == gue) {
+      correctLetterLocations++
+      console.log("correctLetterLocations added 1 for letter "+gue+": "+correctLetterLocations+" at index "+i);
+      solutionArray.splice(i, 1, null);
+    }
+  }console.log("final correctLetterLocations: "+correctLetterLocations+" new solution array: "+solutionArray);
+  var correctLetters = 0;
+  for (var n=0; n<4; n++) {
+    let gue2 = guessArray[n];
+    if (solutionArray.indexOf(gue2) > -1) {
+      var targetIndex = solutionArray.indexOf(gue2);
+      console.log('targetIndex: '+targetIndex);
+      correctLetters++;
+      solutionArray.splice(targetIndex, 1, null);
+    }
+  }console.log("final correctLetters: "+correctLetters+" new solution array: "+solutionArray);
+  // return console.log(colors.red(%s)+" - " +colors.white() correctLetterLocations.red+" - "+correctLetters.white);
 }
 
 function mastermind(guess) {
-  solution = 'abcd'; // Comment this out to generate a random solution
   // your code here
 }
 
