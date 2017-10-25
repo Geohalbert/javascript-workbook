@@ -31,7 +31,7 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-function generateHint(solution, guess) {
+function generateHint(guess) {
   var solutionArray = solution.split('');
   var guessArray = guess.split('');
   var correctLetterLocations = 0;
@@ -40,52 +40,65 @@ function generateHint(solution, guess) {
     let gue= guessArray[i];
     if (sol === gue) {
       correctLetterLocations++
-      console.log("correctLetterLocations added 1 for letter "+gue+": "+correctLetterLocations+" at index "+i);
+      // console.log("correctLetterLocations added 1 for letter "+gue+": "+correctLetterLocations+" at index "+i);
       solutionArray.splice(i, 1, null);
-      console.log('solutionArray after correct location: '+solutionArray);
+      // console.log('solutionArray after correct location: '+solutionArray);
     }
   }
   // console.log("final correctLetterLocations: "+correctLetterLocations+" new solution array: "+solutionArray);
   var correctLetters = 0;
   for (var n=0; n<4; n++) {
-    let sol2 = solutionArray[n];
     // console.log('sol2: '+sol2);
     let gue2 = guessArray[n];
-    // console.log('gue2: '+gue2);
-    if (solutionArray.indexOf(gue2) > -1) {
-      var targetIndex = solutionArray.indexOf(gue2);
-      console.log('targetIndex: '+targetIndex+", solution: "+solution);
-      correctLetters++;
-      solutionArray.splice(targetIndex, 1, null);
-      console.log('solutionArray after targetIndex: '+solutionArray);
+    for (var m=0; m<4; m++) {
+      let sol2 = solutionArray[m];
+      if (gue2 === sol2){
+        var targetIndex = m;
+        // console.log('targetIndex: '+targetIndex+", solution: "+solution);
+        correctLetters++;
+        solutionArray.splice(targetIndex, 1, null);
+        // console.log('solutionArray after targetIndex: '+solutionArray);
+      }
     }
   }if (correctLetterLocations === 4) {
     return true;
+  }else if (board.length === 9){
+    return false;
   }else {
-    var corLetLoc = (String(correctLetterLocations)).red;
-    var corLets = (String(correctLetters)).white;
-    var guessReturn = corLetLoc+" - "+corLets;
+    var corLetLoc = (String(correctLetterLocations).red);
+    var corLets = (String(correctLetters).white);
+    var guessReturn = corLetLoc+"-"+corLets;
     // console.log('guessReturn: '+guessReturn);
+    // console.log('solution: '+solution);
     return guessReturn;
   }
 }
 
 function mastermind(guess) {
-  var hint = generateHint(solution, guess);
-  board.push(String(guess+hint));
+  var hint = generateHint(guess);
+  board.push(String(guess+' '+hint));
   if (hint === true){
-    return "You guessed it!";
-  }else if (board.length === 10) {
-    return 'You ran out of turns! The solution was '+solution;
-  }else {
-    return 'Guess again.';
+    return true;
+  }else if (hint === false) {
+    return false;
+    process.exit();
   }
 }
 // generateHint('abcd', 'ebfc')
 
 function getPrompt() {
   rl.question('guess: ', (guess) => {
-    mastermind(guess);
+    // mastermind(guess);
+    let x= mastermind(guess);
+    if (x === true) {
+      console.log("You guessed it!");
+      process.exit();
+    }else if (x === false) {
+      console.log('You ran out of turns! The solution was '+solution);
+      process.exit();
+    }else {
+      console.log('Guess again. Guesses left: '+(10-board.length));
+    }
     printBoard();
     getPrompt();
   });
