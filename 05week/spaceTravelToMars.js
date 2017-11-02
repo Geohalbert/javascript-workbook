@@ -9,7 +9,56 @@ let jobTypes = {
   programmer: 'Any Ship!'
 };
 
-// Your code here
+class CrewMember {
+  /**
+  * @param name is the name of the crew member
+  * @param job is the job of the crew member
+  * @param specialSkill is the skill of the crew member
+  */
+  constructor(name,job,specialSkill){
+    this.name = name;
+    this.job = job;
+    this.specialSkill = specialSkill;
+  }
+  /**
+  * @param ship is the ship assigned to the crew member
+  */
+  enterShip(ship) {
+    ship.crew.push(this);
+    this.ship = ship;
+  }
+}
+
+class Ship {
+  /**
+  * @param name is the name of the ship
+  * @param type is the type of the ship
+  * @param ability is the ability of the ship
+  */
+  constructor(name,type,ability){
+  this.name = name;
+  this.type = type;
+  this.ability = ability;
+  this.crew = [];
+  }
+  // this function returns the ships ability as a string, if there is a crewmember whose job matches the ships type. Otherwise, it should return "Can't perform a mission yet!"
+  missionStatement(){
+    let count = 0;
+    for (var i=0; i <this.crew.length; i++){
+      let member = this.crew[i];
+      if (jobTypes[member.job] === this.type){
+        return String(this.ability);
+        count++
+      }else if (member.job === "programmer"){
+        return String(this.ability);
+        count++
+      }
+    }
+    if (count === 0) {
+      return "Can't perform a mission yet."
+    }
+  }
+}
 
 //tests
 if (typeof describe === 'function'){
