@@ -18,11 +18,13 @@ class Checker {
 
 function Board() {
   this.checkers = [];
+  //function to add a new checker to the board (like at the start)
   this.addChecker = function(row,column, symbol){
     let check = new Checker(symbol);
     this.grid[row][column] = check;
     this.checkers.push(check);
   }
+//function that removes a checker, such as when a checker is captured
   this.remChecker = function(row,column){
     let remCheck = this.grid[row][column];
     this.grid[row][column] = null;
@@ -31,6 +33,7 @@ function Board() {
       this.checkers.splice(remPos,1);
     }
   }
+//if we want to simply reassign a checker without removing it we use moveChecker
   this.moveChecker = function(startRow,startCol,endRow,endCol) {
     let moveCheck = this.grid[startRow][startCol];
     this.grid[startRow][startCol] = null;
@@ -109,7 +112,7 @@ function Game() {
   this.start = function() {
     this.board.createGrid();
   };
-
+// the game's moveChecker function breaks down the input from the user and applies it to the board's checker functions
   this.moveChecker = function(whichPiece,toWhere){
       let start = whichPiece.split('');
       let end = toWhere.split('');
