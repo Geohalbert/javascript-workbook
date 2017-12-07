@@ -34,7 +34,7 @@ class ListUsers extends React.Component{
         <ul>
         {
           this.state.users.map((item, index) => {
-            return <li key={index}>ID: {item.id}, Name: {item.last_name}, {item.first_name} <img src={item.avatar}></img></li>
+            return <li key={index} className="text-center">ID: {item.id}, Name: {item.last_name}, {item.first_name} <img src={item.avatar} className="img-thumbnail"></img></li>
           })
         }
       </ul>
