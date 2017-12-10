@@ -21,8 +21,57 @@ class CurrentEQ extends React.Component {
     this.magGather = this.magGather.bind(this);
     this.average = this.average.bind(this);
     this.standardDeviation = this.standardDeviation.bind(this);
+    this.lessThan = this.lessThan.bind(this);
+    this.greaterThan = this.greaterThan.bind(this);
   }
 
+  // for filter test:
+
+
+
+  lessThan(){
+    // Get the value of the input field with id="numb"
+    let x = document.getElementById("filter1").value;
+    // If x is Not a Number or less than one or greater than 10
+    if (isNaN(x) || x < 4.5 || x > 10) {
+      alert("Input not valid");
+    } else {
+      let newList = [];
+      let list = this.state.quakes;
+      for (var i=0; i<list.length;i++){
+        let equake = list[i];
+        if (equake > x) {
+          newList.push(equake);
+        }
+      }
+    }
+    console.log('newList:',newList);
+    this.setState({
+      lessThan: newList
+    });
+  }
+
+  greaterThan(){
+    // Get the value of the input field with id="numb"
+    let x = document.getElementById("filter2").value;
+    // If x is Not a Number or less than one or greater than 10
+    if (isNaN(x) || x < 4.5 || x > 10) {
+      alert("Input not valid");
+    } else {
+      let newList = [];
+      let list = this.state.quakes;
+      for (var i=0; i<list.length;i++){
+        let equake = list[i];
+        if (equake < x) {
+          newList.push(equake);
+        }
+      }
+    }
+    console.log('newList:',newList);
+    this.setState({
+      greaterThan: newList
+    });
+  }
 
   standardDeviation(values){
     var avg = this.average(values);
@@ -114,46 +163,49 @@ class CurrentEQ extends React.Component {
     };
   }
 
-  lessThan(number) {
-    const list = this.state.results;
-    const newList = [];
-    let earthquakes = list.properties.mag;
-    while (earthquakes < number) {
-
-    }
-  }
 
   clearData() {
     if(this.state.results.length !==0) {
       this.setState({
-        results: []
+        results: [],
+        quakes: [],
+        filter: [],
+        lessThan: [],
+        greaterThan: [],
+        total: null,
+        average: null,
+        stdDev: null
       });
       console.log('data cleared')
     };
   }
-  // markComplete(currentNumber) {
-  //   debugger;
-  //   let list = this.state.results;
-  //   list.splice(currentNumber, 1);
-  //   this.setState({
-  //     results: list
-  //   });
-  // }
 
   render() {
     return(
       <div>
         <div className="row">
-          <button  bsStyle="primary" bsSize="large" onClick={this.monthGather}>30 days</button>
-          <button  bsStyle="primary" bsSize="large" onClick={this.weekGather}>7 days</button>
-          <button  bsStyle="primary" bsSize="large" onClick={this.dayGather}>24 hours</button>
+          <button onClick={this.monthGather}>30 days</button>
+          <button onClick={this.weekGather}>7 days</button>
+          <button onClick={this.dayGather}>24 hours</button>
         </div>
-        <div className="row">
+        <form>
+          <div className="form-group">
+            <label>Filter magnitudes less than</label>
+            <input id="filter1"></input>
+            <button onClick={this.lessThan}>Filter</button>
+          </div>
+          <div className="form-group">
+            <label>Filter magnitudes greater than</label>
+            <input id="filter2"></input>
+            <button onClick={this.greaterThan}>Filter</button>
+          </div>
+        </form>
+        <div className="col">
           <div>Total:{this.state.total}</div>
           <div>Average magnitude:{this.state.average}</div>
           <div>Standard Dev:{this.state.stdDev}</div>
         </div>
-          <button  bsStyle="primary" bsSize="large" onClick={this.clearData}>Clear Data</button>
+          <button onClick={this.clearData}>Clear Data</button>
     </div>
     )
   }
