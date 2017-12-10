@@ -12,14 +12,40 @@ class CurrentEQ extends React.Component {
       greaterThan: [],
       total: null,
       average: null,
-      std: null
+      stdDev: null
     }
     this.monthGather = this.monthGather.bind(this);
     this.weekGather = this.weekGather.bind(this);
     this.dayGather = this.dayGather.bind(this);
     this.clearData = this.clearData.bind(this);
     this.magGather = this.magGather.bind(this);
-    this.magAvg = this.magAvg.bind(this);
+    this.average = this.average.bind(this);
+    this.standardDeviation = this.standardDeviation.bind(this);
+  }
+
+
+  standardDeviation(values){
+    var avg = this.average(values);
+    console.log('avg:',avg);
+    var squareDiffs = values.map((value) => {
+      var diff = value - avg;
+      var sqrDiff = diff * diff;
+      return sqrDiff;
+    });
+    var avgSquareDiff = this.average(squareDiffs);
+    var stdDev = Math.sqrt(avgSquareDiff);
+    this.setState({
+      stdDev: stdDev,
+      average: avg
+    })
+  }
+
+  average(data){
+    var sum = data.reduce((sum, value) => {
+      return sum + value;
+    }, 0);
+    var avg = sum / data.length;
+    return avg;
   }
 
   magGather(){
@@ -33,20 +59,9 @@ class CurrentEQ extends React.Component {
       quakes: magList,
       total: magList.length
     });
-    this.magAvg();
+    this.standardDeviation(this.state.quakes);
+    console.log('this.state:', this.state)
   }
-
-  magAvg(){
-    var sum = this.state.quakes.reduce(add, 0);
-    function add(a, b) {
-      return a + b;
-    }
-    var avg= sum/(this.state.total);
-    this.setState({
-      average: avg
-    });
-    console.log('avg:', this.state.average);
-  };
 
   monthGather() {
     if(this.state.results.length ===0) {
@@ -130,8 +145,13 @@ class CurrentEQ extends React.Component {
       <div>
         <div className="row">
           <button  bsStyle="primary" bsSize="large" onClick={this.monthGather}>30 days</button>
-          <button  bsStyle="primary" bsSize="large" onClick={this.weekGather}>7 days</button><br></br>
+          <button  bsStyle="primary" bsSize="large" onClick={this.weekGather}>7 days</button>
           <button  bsStyle="primary" bsSize="large" onClick={this.dayGather}>24 hours</button>
+        </div>
+        <div className="row">
+          <div>Total:{this.state.total}</div>
+          <div>Average magnitude:{this.state.average}</div>
+          <div>Standard Dev:{this.state.stdDev}</div>
         </div>
           <button  bsStyle="primary" bsSize="large" onClick={this.clearData}>Clear Data</button>
     </div>
