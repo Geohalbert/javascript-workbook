@@ -80,3 +80,4 @@ Simply run `npm run lint`
 #### Running the Server
 1. Run `npm start`
 1. To break out of the server, press `ctrl` + `c`
+# Battleship
