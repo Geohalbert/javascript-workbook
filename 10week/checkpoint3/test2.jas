@@ -1,0 +1,70 @@
+'use strict'
+
+class Blog extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      results: []
+    }
+    this.markComplete = this.markComplete.bind.this();
+  }
+
+  componentWillMount() {
+    fetch('https://api.openaq.org/v1/cities').then((result)=>{
+      return result.json();
+    }).then((data) =>{
+      this.setState({
+        results: data.results
+      })
+    });
+  }
+
+  markComplete(currentNumber) {
+    debugger;
+    let list = this.state.results;
+    list.splice(currentNumber, 1);
+    this.setState({
+      results: list
+    });
+  }
+
+  render() {
+    debugger;
+    const list = [];
+    this.state.results.forEach((item,index) => {
+      list.push(
+        <div key={index}>
+          <BlogItem city={item.city} locations={item.locations} />
+          {/* /* <p>{item.city}</p>
+          <p>{item.location}</p> */ */}
+          <button onClick={() => this.markComplete}>Mark as complete</button>
+        </div>
+      );
+    });
+    return (
+      <div clannName="list">
+        {list}
+      </div>
+    )
+  }
+}
+
+class BlogItem extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div>
+        <h3>{this.props.city}</h3>
+        <p>{'This city has ${this.props.locations} locations'}</p>
+      </div>
+    )
+  }
+
+
+
+
+ReactDOM.render(<Blog />, document.getElementById('hacker-news'));

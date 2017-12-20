@@ -1,0 +1,41 @@
+body {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn {
+  border-color: black;
+  margin: 10px;
+}
+
+#top {
+  text-align: center;
+  size: large;
+  text-decoration-style: solid;
+}
+
+#count {
+  margin: 5px;
+}
+#bins {
+  border-color: black;
+  border-radius: 15px;
+  background-color: gray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin: 10px,50px,50px,50px;
+}
+#gather {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin: 10px;
+}
